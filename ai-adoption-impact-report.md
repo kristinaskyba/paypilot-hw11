@@ -133,16 +133,16 @@
 | Field | Value |
 | --- | --- |
 | Generation command | `claude -p … --model sonnet --allowedTools "Read,Write,Glob,Grep" --output-format json > reports/generation.json` |
-| Model | <…> |
-| Machine time for generation, min | <…> |
-| Generation cost, USD | <…> |
-| Test functions generated | <…> |
-| Generated set green on the original module | yes / no (red tests: <…>) |
+| Model | `claude-sonnet-5-5` (the `sonnet` alias at run time; the lab reference runs used `claude-sonnet-5`) |
+| Machine time for generation, min | 0.5 |
+| Generation cost, USD | 0.10 |
+| Test functions generated | 26 (27 passed: one test is parametrized) |
+| Generated set green on the original module | yes (red tests: none) |
 
 | Set | Command | Line coverage of `app/engines/fx.py` |
 | --- | --- | --- |
-| Manual | `pytest tests/manual --cov=app.engines.fx` | <…> % |
-| Generated | `pytest tests/generated --cov=app.engines.fx` | <…> % |
+| Manual | `pytest tests/manual --cov=app.engines.fx` | 82 % |
+| Generated | `pytest tests/generated --cov=app.engines.fx` | 100 % |
 
 ---
 
