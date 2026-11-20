@@ -410,15 +410,15 @@ minutes: 1 + 2
 
 | Row | Manual set | Generated set |
 | --- | --- | --- |
-| Human time writing, min | <from section 1> | 0 |
-| Machine time generating, min | - | <from section 4> |
-| Generation cost, USD | - | <from section 4> |
-| Human time reviewing and selecting, min | 0 | <from section 5> |
-| Human time rewriting rejected tests, min | 0 | <from section 5> |
-| **Total human minutes** | **<…>** | **<…>** |
-| Mutants killed of 12 | <…> | <…> |
+| Human time writing, min | 45 | 0 |
+| Machine time generating, min | - | 0.5 |
+| Generation cost, USD | - | 0.10 |
+| Human time reviewing and selecting, min | 0 | 8 |
+| Human time rewriting rejected tests, min | 0 | 10 |
+| **Total human minutes** | **45** | **18** |
+| Mutants killed of 12 | 5 | 9 |
 
-**What follows from this (one sentence):** <…>
+**What follows from this (one sentence):** The generated set cost 18 human minutes plus 0.5 machine minutes and $0.10, against 45 minutes by hand, and killed 9 mutants instead of 5; but 17 of its 26 tests failed review, and most of its extra kills come from rejected tests, so the saving only holds together with the review.
 
 ---
 
