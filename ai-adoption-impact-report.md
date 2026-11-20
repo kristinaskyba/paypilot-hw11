@@ -162,6 +162,192 @@ id: G-02
 …
 ```
 
+**Log** (review timer 14:15-14:23; G-07…G-26 were reviewed together in one pass, 1 min in total):
+
+```
+id: G-01
+verdict: rejected
+criterion: oracle
+reason: expected 4.0 comes from the monkeypatched table (GBP 2.0 / USD 0.5), not the real tariff table
+action: rejected
+minutes: 1
+
+id: G-02
+verdict: accepted
+criterion: -
+reason: same currency gives rate 1.0, true with any table (real or monkeypatched); concrete value; new check, mid_rate not in the manual set
+action: accepted as is
+minutes: 3
+
+id: G-03
+verdict: accepted
+criterion: -
+reason: exact error message checked; unknown to-currency is a new input, the manual set only tests an unknown from-currency
+action: accepted as is
+minutes: 1
+
+id: G-04
+verdict: rejected
+criterion: novelty
+reason: same input class and same check as manual M-05 (unknown tier -> exact error), only the tier name differs
+action: rejected
+minutes: 1
+
+id: G-05
+verdict: rejected
+criterion: novelty
+reason: unknown currency already covered by M-06 and accepted G-03 (same check in mid_rate); also checks only the start of the message
+action: rejected
+minutes: 0.5
+
+id: G-06
+verdict: rejected
+criterion: novelty
+reason: main rule (inside allowance -> no spread) already checked by M-01 with the same asserts; the only extra assert, gross 100.0, comes from the monkeypatched rate
+action: rejected
+minutes: 0.5
+
+id: G-07
+verdict: rejected
+criterion: edge case
+reason: the "boundary" is the fake limit 100 of the monkeypatched tier "basic", not a real tier limit (500 / 1 000 / 5 000); same rule as M-01
+action: rejected
+minutes: 0.05
+
+id: G-08
+verdict: rejected
+criterion: oracle
+reason: expected spread 2 % and limit 100 come from the monkeypatched table
+action: rejected
+minutes: 0.05
+
+id: G-09
+verdict: rejected
+criterion: oracle
+reason: expected spread from the monkeypatched 2 %; limit 100 is fake
+action: rejected
+minutes: 0.05
+
+id: G-10
+verdict: rejected
+criterion: oracle
+reason: result depends on the monkeypatched USD rate 0.5 and limit 100; the idea (allowance counted in EUR, not the source currency) is new
+action: rejected
+minutes: 0.05
+
+id: G-11
+verdict: rejected
+criterion: oracle
+reason: spread 2.0 % and allowance 1 000 come from the monkeypatched tiers "basic" / "premium"
+action: rejected
+minutes: 0.05
+
+id: G-12
+verdict: rejected
+criterion: novelty
+reason: same input class and check as manual M-04 (spread override above the allowance)
+action: rejected
+minutes: 0.05
+
+id: G-13
+verdict: accepted
+criterion: -
+reason: new input (override 0.0 is not replaced by the tier spread); expected 0 written into the test
+action: accepted as is
+minutes: 0.05
+
+id: G-14
+verdict: accepted
+criterion: -
+reason: new rule not in the manual set (override has no effect inside the allowance); expected 0 written into the test
+action: accepted as is
+minutes: 0.05
+
+id: G-15
+verdict: rejected
+criterion: oracle
+reason: spread 2 % and limit 100 come from the monkeypatched table; same rule as M-03
+action: rejected
+minutes: 0.05
+
+id: G-16
+verdict: rejected
+criterion: oracle
+reason: expected value from the monkeypatched 2 %; the case (allowance already used up, partial_allowance) is new
+action: rejected
+minutes: 0.05
+
+id: G-17
+verdict: accepted
+criterion: -
+reason: new input (partial_allowance inside the allowance); expected 0 written into the test
+action: accepted as is
+minutes: 0.05
+
+id: G-18
+verdict: accepted
+criterion: -
+reason: new input (zero amount); expected 0 values hold with any table
+action: accepted as is
+minutes: 0.05
+
+id: G-19
+verdict: accepted
+criterion: -
+reason: new input (zero amount with the allowance used up, no division error); expected 0 written into the test
+action: accepted as is
+minutes: 0.05
+
+id: G-20
+verdict: rejected
+criterion: novelty
+reason: same check (final = gross - spread) as manual M-02, M-03, M-04
+action: rejected
+minutes: 0.05
+
+id: G-21
+verdict: accepted
+criterion: -
+reason: new check (as_dict rounds floats to 6 places, keeps other types and all fields); values built by hand, no table
+action: accepted as is
+minutes: 0.05
+
+id: G-22
+verdict: rejected
+criterion: oracle
+reason: expected fee 1.0 is the monkeypatched sepa fee (real: 0.35)
+action: rejected
+minutes: 0.05
+
+id: G-23
+verdict: rejected
+criterion: oracle
+reason: expected fees are the monkeypatched swift fee 5 + 0.1 % (real: 15 + 0.3 %)
+action: rejected
+minutes: 0.05
+
+id: G-24
+verdict: rejected
+criterion: oracle
+reason: 5.03 comes from the monkeypatched swift fee
+action: rejected
+minutes: 0.05
+
+id: G-25
+verdict: rejected
+criterion: oracle
+reason: 5.0 is the monkeypatched swift flat fee
+action: rejected
+minutes: 0.05
+
+id: G-26
+verdict: accepted
+criterion: -
+reason: exception test, exact message; transfer_fee is not in the manual set
+action: accepted as is
+minutes: 0.05
+```
+
 *Example entry from the lesson:*
 
 ```
@@ -178,14 +364,14 @@ minutes: 1 + 2
 
 | Metric | Value |
 | --- | --- |
-| Tests generated (log entries) | <N> |
-| Accepted as is | <…> |
-| Rejected | <…> |
+| Tests generated (log entries) | 26 |
+| Accepted as is | 9 (G-02, G-03, G-13, G-14, G-17, G-18, G-19, G-21, G-26) |
+| Rejected | 17 |
 | Of the rejected, rewritten by hand | <…> |
-| Share rejected, % | <rejected / N> |
-| Most frequent rejection criterion | <…> |
-| Classes covered by accepted tests and missing from the manual set | <…> |
-| Review minutes, total | <…> |
+| Share rejected, % | 65 % (17 / 26) |
+| Most frequent rejection criterion | oracle (11 of 17; novelty 5, edge case 1): the generated file replaces the tariff table with a monkeypatched one |
+| Classes covered by accepted tests and missing from the manual set | zero override, override inside the allowance, partial_allowance inside the allowance, zero amount, as_dict rounding (result shape), same-currency rate, unknown to-currency, unknown transfer type |
+| Review minutes, total | 8 |
 | Rewrite minutes, total | <…> |
 
 ---
