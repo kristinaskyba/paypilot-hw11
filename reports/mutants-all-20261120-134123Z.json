@@ -1,0 +1,115 @@
+{
+  "set": "all",
+  "paths": [
+    "tests/manual",
+    "tests/generated"
+  ],
+  "started_at": "2026-11-20T14:41:23.074198+01:00",
+  "mutants_file": "mutants.toml",
+  "mutants_git": {
+    "committed_at": "2026-11-20T13:56:47+01:00",
+    "commit": "cedf5c5",
+    "uncommitted": false,
+    "head": "3a16ae1"
+  },
+  "killed": 9,
+  "total": 12,
+  "mutation_score": 0.75,
+  "by_class": {
+    "значення тіру": {
+      "total": 3,
+      "killed": 1
+    },
+    "межа EUR 1 000": {
+      "total": 3,
+      "killed": 3
+    },
+    "арифметика": {
+      "total": 3,
+      "killed": 3
+    },
+    "форма результату": {
+      "total": 3,
+      "killed": 2
+    }
+  },
+  "survived": [
+    "A-01",
+    "A-02",
+    "D-02"
+  ],
+  "rows": [
+    {
+      "id": "A-01",
+      "class": "значення тіру",
+      "description": "tier2 customer pays a 1.5 % spread instead of 0.9 % (same effect as defect D20)",
+      "killed": false
+    },
+    {
+      "id": "A-02",
+      "class": "значення тіру",
+      "description": "tier3 free monthly allowance is EUR 500 instead of EUR 5 000",
+      "killed": false
+    },
+    {
+      "id": "A-03",
+      "class": "значення тіру",
+      "description": "every tier is charged the tier1 spread (1.5 %)",
+      "killed": true
+    },
+    {
+      "id": "B-01",
+      "class": "межа EUR 1 000",
+      "description": "a quote that lands exactly on the allowance limit is charged a spread instead of being free",
+      "killed": true
+    },
+    {
+      "id": "B-02",
+      "class": "межа EUR 1 000",
+      "description": "the allowance check uses the amount in the original currency instead of EUR",
+      "killed": true
+    },
+    {
+      "id": "B-03",
+      "class": "межа EUR 1 000",
+      "description": "the allowance already used this month is ignored in the limit check",
+      "killed": true
+    },
+    {
+      "id": "C-01",
+      "class": "арифметика",
+      "description": "partial allowance charges the spread on the free part instead of the excess part",
+      "killed": true
+    },
+    {
+      "id": "C-02",
+      "class": "арифметика",
+      "description": "the spread is added to the final amount instead of subtracted",
+      "killed": true
+    },
+    {
+      "id": "C-03",
+      "class": "арифметика",
+      "description": "the exchange rate is inverted (from and to currencies swapped)",
+      "killed": true
+    },
+    {
+      "id": "D-01",
+      "class": "форма результату",
+      "description": "the quote reports allowance_applied the wrong way round (amounts stay correct)",
+      "killed": true
+    },
+    {
+      "id": "D-02",
+      "class": "форма результату",
+      "description": "the quote reports an inverted mid_rate (amounts stay correct)",
+      "killed": false
+    },
+    {
+      "id": "D-03",
+      "class": "форма результату",
+      "description": "the quote always reports 0 allowance used before (amounts stay correct)",
+      "killed": true
+    }
+  ]
+}

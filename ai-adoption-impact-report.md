@@ -41,11 +41,11 @@
 
 | What you predict | Prediction | Measured |
 | --- | --- | --- |
-| How many of 12 mutants the manual set kills | 10 | <…> |
-| How many of 12 mutants the generated set kills | 8 | <…> |
-| Which class each set is weaker in (manual / generated) | result shape / result shape | <…> |
+| How many of 12 mutants the manual set kills | 10 | 5 |
+| How many of 12 mutants the generated set kills | 8 | 9 |
+| Which class each set is weaker in (manual / generated) | result shape / result shape | tier value / tier value |
 
-**Biggest gap and what it means:** <…>
+**Biggest gap and what it means:** Manual set: predicted 10, measured 5. The manual tests take expected values from `policy.…`, so all three tier-value mutants change the expectation together with the code and survive. 82 % coverage hid this.
 
 ---
 
@@ -79,7 +79,7 @@
 
 *Lab: step 2 · Homework: stage 1 · Criterion 2. The list does not change after the commit. The `class` field in `mutants.toml` must be, word for word, one of four Ukrainian values (the kit script groups by them): `значення тіру` (tier value), `межа EUR 1 000` (EUR 1 000 boundary), `арифметика` (arithmetic), `форма результату` (result shape).*
 
-**List file:** `mutants.toml` · **Commit / date fixed:** `cedf5c5` / 2026-11-20 13:56 *(`git log -1 -- mutants.toml`)* · **First mutant run:** <date> *(field `started_at` in the first `reports/mutants-…json` report; must be later; same report shows `"uncommitted": false`)*
+**List file:** `mutants.toml` · **Commit / date fixed:** `cedf5c5` / 2026-11-20 13:56 *(`git log -1 -- mutants.toml`)* · **First mutant run:** 2026-11-20 14:41 *(field `started_at` in the first `reports/mutants-…json` report; must be later; same report shows `"uncommitted": false`)*
 
 | ID | Class | What changed (original → mutant) | Place in code |
 | --- | --- | --- | --- |
@@ -382,25 +382,25 @@ minutes: 1 + 2
 
 | Set | Mutant run command | Report |
 | --- | --- | --- |
-| Manual | `python tools/run_mutants.py --set manual` | `reports/mutants-manual-…json` |
-| Generated | `python tools/run_mutants.py --set generated` | `reports/mutants-generated-…json` |
-| Combined | `python tools/run_mutants.py --set all` | `reports/mutants-all-…json` |
+| Manual | `python tools/run_mutants.py --set manual` | `reports/mutants-manual-20261120-134116Z.json` |
+| Generated | `python tools/run_mutants.py --set generated` | `reports/mutants-generated-20261120-134119Z.json` |
+| Combined | `python tools/run_mutants.py --set all` | `reports/mutants-all-20261120-134123Z.json` |
 
 | Mutant class (3 each) | Manual | Generated | Combined |
 | --- | --- | --- | --- |
-| Tier value | _/3 | _/3 | _/3 |
-| EUR 1 000 boundary | _/3 | _/3 | _/3 |
-| Arithmetic | _/3 | _/3 | _/3 |
-| Result shape | _/3 | _/3 | _/3 |
-| **Total of 12** | **__** | **__** | **__** |
-| **Mutation score** | **__ %** | **__ %** | **__ %** |
-| Line coverage (from section 4) | __ % | __ % | - |
+| Tier value | 0/3 | 1/3 | 1/3 |
+| EUR 1 000 boundary | 2/3 | 3/3 | 3/3 |
+| Arithmetic | 2/3 | 3/3 | 3/3 |
+| Result shape | 1/3 | 2/3 | 2/3 |
+| **Total of 12** | **5** | **9** | **9** |
+| **Mutation score** | **42 %** | **75 %** | **75 %** |
+| Line coverage (from section 4) | 82 % | 100 % | - |
 
-**Surviving mutants (IDs):** manual <…> · generated <…> · combined <…>
+**Surviving mutants (IDs):** manual A-01, A-02, A-03, B-02, C-01, D-02, D-03 · generated A-01, A-02, D-02 · combined A-01, A-02, D-02
 
-**One sentence about the surviving class:** <which class survived, in which set and why>
+**One sentence about the surviving class:** Tier value survives in both sets: the manual set reads expected values from `policy.py`, and the generated set replaces `policy.py` with a monkeypatched table, so neither notices a wrong tariff.
 
-**Class where the assistant is stronger than me:** <…>
+**Class where the assistant is stronger than me:** EUR 1 000 boundary and arithmetic (3/3 vs 2/3), and result shape (2/3 vs 1/3); but most of these kills come from tests I rejected in review (G-09, G-10, G-15).
 
 ---
 
