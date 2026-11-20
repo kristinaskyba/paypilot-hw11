@@ -1,43 +1,11 @@
 # AI Adoption Impact Report: assistant for tests of `app/engines/fx.py`
 
-> **How to use this template.** Lab: fill sections 1-6, step by step (steps 1-6). Homework: add the cost in two currencies, the seven Impact Report rows and the residual risk (sections 7-10). Delete the italic hints and the section "How this template maps to the lab and the homework" before submitting. Back every row with a number, a file or a run output. An empty cell is better than an invented number. A negative result is a valid submission.
-
-**System:** PayPilot · **Module:** `app/engines/fx.py` (kit `paypilot-l11-eval`) · **Date:** 2026-11-16 · **Mandate:** Ship it · **Author:** <name>
+**System:** PayPilot · **Module:** `app/engines/fx.py` (kit `paypilot-l11-eval`) · **Date:** 2026-11-16 – 2026-11-20 · **Mandate:** Ship it · **Author:** Kristina
 **Assistant:** Claude Code, `--model sonnet` · **What the assistant saw:** module code without the tariff table (`.claude/settings.json` of the kit, unchanged) · **Kit commit:** d6c471a
 
 ---
 
-## How this template maps to the lab and the homework
-
-*Delete this section from the final document.*
-
-| Section | Lab | Homework | Rubric criterion |
-| --- | --- | --- | --- |
-| Prediction | before step 1, compare after step 6 | - | - |
-| 1. Manual baseline | step 1 | stage 1 | 1. Baseline |
-| 2. Mutant list | step 2 | stage 1 | 2. Fixed set |
-| 3. Review criteria and prompt | step 3 | stage 1 | 3. Review log |
-| 4. Generation and coverage | step 4 | stages 1-2 | 4. Breakdown · 5. Cost |
-| 5. Generation Review Log | step 5 | stages 1-2 | 3. Review log · 5. Cost |
-| 6. Results by mutant class | step 6 | stage 1 | 2. Fixed set · 4. Breakdown |
-| 7. Cost in two currencies | - | stage 2 | 5. Cost |
-| 8. Impact Report | - | stage 3 | 6. Decision |
-| 9. Residual risk | - | stage 3 | 6. Decision |
-| 10. AI declaration and chain-ready | - | stage 4 | 7. Chain-ready |
-
-**Three things that make this a decision document, not a list:**
-
-1. Row 3 "Where it does not work" names a mutant class and the set it survived in, not a list of IDs.
-2. Row 5 "What we do about it" names the assistant's role (what it writes, what a human writes), not "useful / useless".
-3. Row 7 "When we review this" names events that would change the decision, not "as needed".
-
-**Generic version for another system (homework, stage 4).** Save as `ai-adoption-impact-report.generic.md` in the repo root. Copy this template and remove everything tied to PayPilot and `app/engines/fx.py`: module name, tariffs, mutant classes, examples `G-07` and `A-01`, kit commands. Keep the sections and rows that work for measuring an assistant in any system. Do not add your company's own cases.
-
----
-
 ## Prediction before step 1
-
-*Lab: before step 1. Fill in before doing anything; the "Measured" column after step 6.*
 
 | What you predict | Prediction | Measured |
 | --- | --- | --- |
@@ -50,8 +18,6 @@
 ---
 
 ## 1. Manual baseline (Manual Baseline Set)
-
-*Lab: step 1 · Homework: stage 1 · Criterion 1. Do not open the assistant until this section is filled in.*
 
 | Field | Value |
 | --- | --- |
@@ -77,9 +43,7 @@
 
 ## 2. Mutant list
 
-*Lab: step 2 · Homework: stage 1 · Criterion 2. The list does not change after the commit. The `class` field in `mutants.toml` must be, word for word, one of four Ukrainian values (the kit script groups by them): `значення тіру` (tier value), `межа EUR 1 000` (EUR 1 000 boundary), `арифметика` (arithmetic), `форма результату` (result shape).*
-
-**List file:** `mutants.toml` · **Commit / date fixed:** `cedf5c5` / 2026-11-20 13:56 *(`git log -1 -- mutants.toml`)* · **First mutant run:** 2026-11-20 14:41 *(field `started_at` in the first `reports/mutants-…json` report; must be later; same report shows `"uncommitted": false`)*
+**List file:** `mutants.toml` · **Commit / date fixed:** `cedf5c5` / 2026-11-20 13:56 · **First mutant run:** 2026-11-20 14:41
 
 | ID | Class | What changed (original → mutant) | Place in code |
 | --- | --- | --- | --- |
@@ -100,8 +64,6 @@
 
 ## 3. Review criteria and prompt
 
-*Lab: step 3 · Homework: stage 1 · Criterion 3. Fill in before generation. Commit `prompts/` before `tests/generated/` appears.*
-
 **Commit / date criteria and prompt were fixed:** `1e209d9` / 2026-11-20 14:04
 
 | Criterion | Accept | Reject |
@@ -112,9 +74,9 @@
 | Independence | result does not depend on test order or the clock | `datetime.now()`, shared state between tests |
 | Name | name states the rule being checked | `test_quote_1`, `test_works` |
 | Novelty | new input class or new check of the result (a field not checked by your manual set or by already accepted tests) | same input class and same check with a different number |
-| *Your own seventh criterion (optional)* | not used | not used |
+| Own seventh criterion | not used | not used |
 
-*For exception tests (`pytest.raises`) and property tests, "Oracle" does not apply: judge them by "Assertion level" and "Novelty". Apply "Edge case" only to tests that by name or comment claim to check the limit. A test with several asserts is judged by the rule it claims in its name; that rule is the main one, also for service parameters. "Novelty" is relative to your manual set and the generated tests already accepted.*
+For exception tests (`pytest.raises`) and property tests, "Oracle" does not apply: they are judged by "Assertion level" and "Novelty". "Edge case" applies only to tests that by name or comment claim to check the limit. A test with several asserts is judged by the rule it claims in its name; that rule is the main one, also for service parameters. "Novelty" is relative to the manual set and the generated tests already accepted.
 
 **Generation prompt** (in the lab: the weak prompt, word for word from `prompts/generation-prompt.md`):
 
@@ -127,8 +89,6 @@
 ---
 
 ## 4. Generation and coverage
-
-*Lab: step 4 · Homework: stages 1-2 · Criteria 4 and 5. Generation numbers from `python tools/generation_summary.py reports/generation.json`.*
 
 | Field | Value |
 | --- | --- |
@@ -147,20 +107,6 @@
 ---
 
 ## 5. Generation Review Log
-
-*Lab: step 5 · Homework: stages 1-2 · Criteria 3 and 5. One entry per generated test, accepted ones too. A parametrized test is one entry. If a test was rewritten, `minutes` has two parts: review + rewrite. Rewritten tests go to `tests/rewritten/` with ids `R-01`, `R-02`, …; do not change the file in `tests/generated/`. Exception: tests red on the original module are deleted in a separate commit and logged as `rejected`.*
-
-```
-id: G-01
-verdict: accepted / rejected
-criterion: <criterion from section 3, or ->
-reason: <what exactly the test checks or does not check>
-action: <accepted as is / rejected / rewritten by hand as R-… in tests/rewritten/>
-minutes: <review> + <rewrite>   # e.g. 1 + 2; without rewrite, review only
-
-id: G-02
-…
-```
 
 **Log** (review timer 14:15-14:23; G-07…G-26 were reviewed together in one pass, 1 min in total; rewrite timer 14:30-14:40):
 
@@ -348,18 +294,6 @@ action: accepted as is
 minutes: 0.05
 ```
 
-*Example entry from the lesson:*
-
-```
-id: G-07
-verdict: rejected
-criterion: assertion level
-reason: checks isinstance(q.final_amount, float); does not fail
-        when the tier spread is swapped
-action: rewritten by hand as R-01 in tests/rewritten/
-minutes: 1 + 2
-```
-
 **Log summary:**
 
 | Metric | Value |
@@ -377,8 +311,6 @@ minutes: 1 + 2
 ---
 
 ## 6. Results by mutant class
-
-*Lab: step 6 · Homework: stage 1 · Criteria 2 and 4. The same `mutants.toml` for all three sets.*
 
 | Set | Mutant run command | Report |
 | --- | --- | --- |
@@ -406,8 +338,6 @@ minutes: 1 + 2
 
 ## 7. Cost in two currencies
 
-*Homework: stage 2 · Criterion 5. Numbers come from sections 1, 4, 5.*
-
 | Row | Manual set | Generated set |
 | --- | --- | --- |
 | Human time writing, min | 45 | 0 |
@@ -424,13 +354,11 @@ minutes: 1 + 2
 
 ## 8. AI Adoption Impact Report
 
-*Homework: stage 3 · Criterion 6. Seven rows in three blocks (can be shown as three slides). The main number is the mutation score with its breakdown; time comes second and always next to review time.*
-
 ### Block 1. What we measured
 
 | Row | Content |
 | --- | --- |
-| 1. What we measured on | one module `app/engines/fx.py`, one list of 12 mutants (commit `cedf5c5`, 2026-11-20), both sets on a fresh clone <SHA of the homework repo>; assistant `claude-sonnet-5-5` saw only `fx.py` (not `policy.py`, the manual set, the mutant list or the review criteria) |
+| 1. What we measured on | one module `app/engines/fx.py`, one list of 12 mutants (commit `cedf5c5`, 2026-11-20), both sets on a fresh clone `71ddc52`; assistant `claude-sonnet-5-5` saw only `fx.py` (not `policy.py`, the manual set, the mutant list or the review criteria) |
 | 2. The number | mutation score: manual 42 % · generated 75 % · combined 75 %; breakdown by class in section 6; share of rejected generated tests 65 % |
 
 ### Block 2. Where it does not work and what it costs
@@ -448,13 +376,11 @@ minutes: 1 + 2
 | 6. Mandate | under Ship it: we use the reviewed generated set and a human adds tier-value tests before release; under Zero regulatory risk: no generated test is accepted without an expected value from the real tariff table, and release waits until all 3 tier-value mutants are killed |
 | 7. When we review this | (1) the assistant model changes; (2) `fx.py` or the tariff table changes; (3) the tariff table or the review criteria are given to the assistant as input (the "strong prompt"); (4) the generated set starts killing tier-value mutants |
 
-**Answer to the CTO in one sentence** *(to "Does anyone have a number?")*: Yes: on `fx.py` the assistant's tests kill 9 of 12 planted bugs vs 5 by hand, for 18 vs 45 human minutes and $0.10, but no set catches a wrong tariff, so a human still writes the tariff tests.
+**Answer to the CTO in one sentence**: Yes: on `fx.py` the assistant's tests kill 9 of 12 planted bugs vs 5 by hand, for 18 vs 45 human minutes and $0.10, but no set catches a wrong tariff, so a human still writes the tariff tests.
 
 ---
 
 ## 9. Residual risk
-
-*Homework: stage 3 · Criterion 6. What from the lesson section "What this method does not catch" applies to your measurement. L03 format.*
 
 | Not covered | What will happen | Why we live with it now | Defer or accept |
 | --- | --- | --- | --- |
@@ -465,29 +391,14 @@ minutes: 1 + 2
 
 ## 10. AI declaration and chain-ready
 
-*Homework: stage 4.*
-
 **AI declaration:** where exactly I used AI: the test generator (Claude Code, `claude-sonnet-5-5`, one run) wrote `tests/generated/`; a chat assistant (Claude) suggested mutant candidates (I chose the 12 and swapped three) and helped me apply my review criteria to the generated tests (I approved each verdict) · what I rejected from its output: 17 of 26 generated tests, see section 5 · other: I wrote the manual tests (section 1) and the rewrites R-01 and R-02 myself 
 
 **Chain-ready**: on a fresh clone of your repo after `pip install -r requirements.txt`:
 
 | Check on a fresh clone | Command | Passes |
 | --- | --- | --- |
-| Manual set | `pytest tests/manual` | yes / no |
-| Generated set | `pytest tests/generated` | yes / no |
-| Mutant run from the committed list | `python tools/run_mutants.py --set all` | yes / no |
+| Manual set | `pytest tests/manual` | yes (6 passed) |
+| Generated set | `pytest tests/generated` | yes (27 passed) |
+| Mutant run from the committed list | `python tools/run_mutants.py --set all` | yes (9/12, same as section 6) |
 
 **Attachments:** `tests/manual/` · `tests/generated/` · `tests/rewritten/` · `mutants.toml` · `prompts/` · `reports/` · `ai-adoption-impact-report.generic.md`.
-
-## Before submitting
-
-- [ ] Section 1 has timer start, finish and minutes, not "≈40".
-- [ ] Last commit of `mutants.toml` is earlier than the `tests/generated/` commit and the first `reports/mutants-*.json` report; reports committed; same list for all three sets.
-- [ ] `tests/manual` commit is earlier than `tests/generated/`, and `tests/manual` was not changed after generation.
-- [ ] Last commit of `prompts/` is earlier than `tests/generated/`; `tests/generated/` not edited after generation, except deleting red tests.
-- [ ] Log has an entry for every generated test: verdict, criterion, reason, minutes.
-- [ ] Section 6: four class rows for three sets, list of survivors, coverage.
-- [ ] Section 7: separate rows for review, rewrite, machine minutes and cost.
-- [ ] Impact Report rows 3, 5, 6, 7 are concrete and based on your breakdown.
-- [ ] "Residual risk" section filled in.
-- [ ] Chain-ready commands pass on a fresh clone; `ai-adoption-impact-report.generic.md` and the AI declaration exist.
