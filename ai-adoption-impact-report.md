@@ -467,7 +467,7 @@ minutes: 1 + 2
 
 *Homework: stage 4.*
 
-**AI declaration:** where exactly I used AI: <…> · what I rejected from its output: <link to section 5> · other: <…>
+**AI declaration:** where exactly I used AI: the test generator (Claude Code, `claude-sonnet-5-5`, one run) wrote `tests/generated/`; a chat assistant (Claude) suggested mutant candidates (I chose the 12 and swapped three) and helped me apply my review criteria to the generated tests (I approved each verdict) · what I rejected from its output: 17 of 26 generated tests, see section 5 · other: I wrote the manual tests (section 1) and the rewrites R-01 and R-02 myself 
 
 **Chain-ready**: on a fresh clone of your repo after `pip install -r requirements.txt`:
 
