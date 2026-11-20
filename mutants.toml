@@ -1,0 +1,99 @@
+# L11 mutant list (lab step 2). 12 mutants, 3 per class.
+# The class values must stay in Ukrainian: the kit script groups by them.
+# Fixed by commit before generation and before the first mutant run.
+
+[[mutant]]
+id = "A-01"
+class = "значення тіру"
+file = "app/engines/policy.py"
+find = '"tier2": 0.9'
+replace = '"tier2": 1.5'
+description = "tier2 customer pays a 1.5 % spread instead of 0.9 % (same effect as defect D20)"
+
+[[mutant]]
+id = "A-02"
+class = "значення тіру"
+file = "app/engines/policy.py"
+find = '"tier3": 5000'
+replace = '"tier3": 500'
+description = "tier3 free monthly allowance is EUR 500 instead of EUR 5 000"
+
+[[mutant]]
+id = "A-03"
+class = "значення тіру"
+file = "app/engines/fx.py"
+find = "else policy.FX_SPREAD_PCT[tier])"
+replace = 'else policy.FX_SPREAD_PCT["tier1"])'
+description = "every tier is charged the tier1 spread (1.5 %)"
+
+[[mutant]]
+id = "B-01"
+class = "межа EUR 1 000"
+file = "app/engines/fx.py"
+find = "within = allowance_used_eur + amount_eur <= allowance_total"
+replace = "within = allowance_used_eur + amount_eur < allowance_total"
+description = "a quote that lands exactly on the allowance limit is charged a spread instead of being free"
+
+[[mutant]]
+id = "B-02"
+class = "межа EUR 1 000"
+file = "app/engines/fx.py"
+find = "within = allowance_used_eur + amount_eur <= allowance_total"
+replace = "within = allowance_used_eur + amount <= allowance_total"
+description = "the allowance check uses the amount in the original currency instead of EUR"
+
+[[mutant]]
+id = "B-03"
+class = "межа EUR 1 000"
+file = "app/engines/fx.py"
+find = "within = allowance_used_eur + amount_eur <= allowance_total"
+replace = "within = amount_eur <= allowance_total"
+description = "the allowance already used this month is ignored in the limit check"
+
+[[mutant]]
+id = "C-01"
+class = "арифметика"
+file = "app/engines/fx.py"
+find = "charged_share = charged_eur / amount_eur if amount_eur else 0.0"
+replace = "charged_share = remaining_eur / amount_eur if amount_eur else 0.0"
+description = "partial allowance charges the spread on the free part instead of the excess part"
+
+[[mutant]]
+id = "C-02"
+class = "арифметика"
+file = "app/engines/fx.py"
+find = "final_amount=gross - spread_amount"
+replace = "final_amount=gross + spread_amount"
+description = "the spread is added to the final amount instead of subtracted"
+
+[[mutant]]
+id = "C-03"
+class = "арифметика"
+file = "app/engines/fx.py"
+find = "return policy.RATES_TO_EUR[from_currency] / policy.RATES_TO_EUR[to_currency]"
+replace = "return policy.RATES_TO_EUR[to_currency] / policy.RATES_TO_EUR[from_currency]"
+description = "the exchange rate is inverted (from and to currencies swapped)"
+
+[[mutant]]
+id = "D-01"
+class = "форма результату"
+file = "app/engines/fx.py"
+find = "allowance_applied=within"
+replace = "allowance_applied=not within"
+description = "the quote reports allowance_applied the wrong way round (amounts stay correct)"
+
+[[mutant]]
+id = "D-02"
+class = "форма результату"
+file = "app/engines/fx.py"
+find = "mid_rate=rate"
+replace = "mid_rate=1 / rate"
+description = "the quote reports an inverted mid_rate (amounts stay correct)"
+
+[[mutant]]
+id = "D-03"
+class = "форма результату"
+file = "app/engines/fx.py"
+find = "allowance_used_before_eur=allowance_used_eur"
+replace = "allowance_used_before_eur=0.0"
+description = "the quote always reports 0 allowance used before (amounts stay correct)"
