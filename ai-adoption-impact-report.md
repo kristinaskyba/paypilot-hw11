@@ -102,7 +102,7 @@
 
 *Lab: step 3 · Homework: stage 1 · Criterion 3. Fill in before generation. Commit `prompts/` before `tests/generated/` appears.*
 
-**Commit / date criteria and prompt were fixed:** <SHA> / <date>
+**Commit / date criteria and prompt were fixed:** `1e209d9` / 2026-11-20 14:04
 
 | Criterion | Accept | Reject |
 | --- | --- | --- |
@@ -112,14 +112,14 @@
 | Independence | result does not depend on test order or the clock | `datetime.now()`, shared state between tests |
 | Name | name states the rule being checked | `test_quote_1`, `test_works` |
 | Novelty | new input class or new check of the result (a field not checked by your manual set or by already accepted tests) | same input class and same check with a different number |
-| *Your own seventh criterion (optional)* | <…> | <…> |
+| *Your own seventh criterion (optional)* | not used | not used |
 
 *For exception tests (`pytest.raises`) and property tests, "Oracle" does not apply: judge them by "Assertion level" and "Novelty". Apply "Edge case" only to tests that by name or comment claim to check the limit. A test with several asserts is judged by the rule it claims in its name; that rule is the main one, also for service parameters. "Novelty" is relative to your manual set and the generated tests already accepted.*
 
 **Generation prompt** (in the lab: the weak prompt, word for word from `prompts/generation-prompt.md`):
 
 ```
-<prompt text word for word>
+Згенеруй unit-тести для модуля app/engines/fx.py. Поклади їх у tests/generated/test_fx_generated.py.
 ```
 
 **Files:** `prompts/review-criteria.md`, `prompts/generation-prompt.md`
