@@ -162,7 +162,7 @@ id: G-02
 …
 ```
 
-**Log** (review timer 14:15-14:23; G-07…G-26 were reviewed together in one pass, 1 min in total):
+**Log** (review timer 14:15-14:23; G-07…G-26 were reviewed together in one pass, 1 min in total; rewrite timer 14:30-14:40):
 
 ```
 id: G-01
@@ -232,8 +232,8 @@ id: G-10
 verdict: rejected
 criterion: oracle
 reason: result depends on the monkeypatched USD rate 0.5 and limit 100; the idea (allowance counted in EUR, not the source currency) is new
-action: rejected
-minutes: 0.05
+action: rewritten by hand as R-01 in tests/rewritten/ (real table: USD 540 = EUR 496.80, inside the tier1 EUR 500 allowance)
+minutes: 0.05 + 5
 
 id: G-11
 verdict: rejected
@@ -274,8 +274,8 @@ id: G-16
 verdict: rejected
 criterion: oracle
 reason: expected value from the monkeypatched 2 %; the case (allowance already used up, partial_allowance) is new
-action: rejected
-minutes: 0.05
+action: rewritten by hand as R-02 in tests/rewritten/ (real table: tier1 1.5 %, EUR 600 used of 500, EUR 100 -> spread 1.5, final 98.5)
+minutes: 0.05 + 5
 
 id: G-17
 verdict: accepted
@@ -367,12 +367,12 @@ minutes: 1 + 2
 | Tests generated (log entries) | 26 |
 | Accepted as is | 9 (G-02, G-03, G-13, G-14, G-17, G-18, G-19, G-21, G-26) |
 | Rejected | 17 |
-| Of the rejected, rewritten by hand | <…> |
+| Of the rejected, rewritten by hand | 2 (G-10 -> R-01, G-16 -> R-02) |
 | Share rejected, % | 65 % (17 / 26) |
 | Most frequent rejection criterion | oracle (11 of 17; novelty 5, edge case 1): the generated file replaces the tariff table with a monkeypatched one |
 | Classes covered by accepted tests and missing from the manual set | zero override, override inside the allowance, partial_allowance inside the allowance, zero amount, as_dict rounding (result shape), same-currency rate, unknown to-currency, unknown transfer type |
 | Review minutes, total | 8 |
-| Rewrite minutes, total | <…> |
+| Rewrite minutes, total | 10 |
 
 ---
 
