@@ -458,7 +458,8 @@ minutes: 1 + 2
 
 | Not covered | What will happen | Why we live with it now | Defer or accept |
 | --- | --- | --- | --- |
-| <…> | <…> | <…> | <…> |
+| A wrong number in the tariff table itself (no set kills the tier-value mutants A-01, A-02) | a customer is charged the wrong spread or gets the wrong free allowance, and no test fails | the tests that would catch it are planned for a human (row 5) but not written yet | defer: add tier-value tests with real tariff numbers before release |
+| Bugs outside my 12 mutants (for example `transfer_fee`, `as_dict` rounding, other currencies) | the mutation score says nothing about them; a bug there can pass unnoticed | the list covers only the four classes from the lab and must stay fixed for this measurement | accept for this measurement; add classes in the next one |
 
 ---
 
