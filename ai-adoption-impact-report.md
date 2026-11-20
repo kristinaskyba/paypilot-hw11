@@ -79,22 +79,22 @@
 
 *Lab: step 2 · Homework: stage 1 · Criterion 2. The list does not change after the commit. The `class` field in `mutants.toml` must be, word for word, one of four Ukrainian values (the kit script groups by them): `значення тіру` (tier value), `межа EUR 1 000` (EUR 1 000 boundary), `арифметика` (arithmetic), `форма результату` (result shape).*
 
-**List file:** `mutants.toml` · **Commit / date fixed:** <SHA> / <date> *(`git log -1 -- mutants.toml`)* · **First mutant run:** <date> *(field `started_at` in the first `reports/mutants-…json` report; must be later; same report shows `"uncommitted": false`)*
+**List file:** `mutants.toml` · **Commit / date fixed:** `cedf5c5` / 2026-11-20 13:56 *(`git log -1 -- mutants.toml`)* · **First mutant run:** <date> *(field `started_at` in the first `reports/mutants-…json` report; must be later; same report shows `"uncommitted": false`)*
 
 | ID | Class | What changed (original → mutant) | Place in code |
 | --- | --- | --- | --- |
 | A-01 | tier value | `tier2` spread: `0.9` → `1.5` (same effect as `D20`) | `app/engines/policy.py`, `FX_SPREAD_PCT` |
-| A-02 | tier value | <…> | <…> |
-| A-03 | tier value | <…> | <…> |
-| B-01 | EUR 1 000 boundary | <…> | <…> |
-| B-02 | EUR 1 000 boundary | <…> | <…> |
-| B-03 | EUR 1 000 boundary | <…> | <…> |
-| C-01 | arithmetic | <…> | <…> |
-| C-02 | arithmetic | <…> | <…> |
-| C-03 | arithmetic | <…> | <…> |
-| D-01 | result shape | <…> | <…> |
-| D-02 | result shape | <…> | <…> |
-| D-03 | result shape | <…> | <…> |
+| A-02 | tier value | `tier3` free allowance: `5000` → `500` | `app/engines/policy.py`, `FX_FREE_MONTHLY_ALLOWANCE_EUR` |
+| A-03 | tier value | all tiers get the tier1 spread: `FX_SPREAD_PCT[tier]` → `FX_SPREAD_PCT["tier1"]` | `app/engines/fx.py`, `quote()` |
+| B-01 | EUR 1 000 boundary | `<= allowance_total` → `< allowance_total` | `app/engines/fx.py`, `quote()`, `within` |
+| B-02 | EUR 1 000 boundary | `amount_eur` → `amount` (original currency) in the limit check | `app/engines/fx.py`, `quote()`, `within` |
+| B-03 | EUR 1 000 boundary | used allowance ignored: `allowance_used_eur + amount_eur <=` → `amount_eur <=` | `app/engines/fx.py`, `quote()`, `within` |
+| C-01 | arithmetic | `charged_eur / amount_eur` → `remaining_eur / amount_eur` | `app/engines/fx.py`, `quote()`, partial allowance |
+| C-02 | arithmetic | `gross - spread_amount` → `gross + spread_amount` | `app/engines/fx.py`, `quote()`, `final_amount` |
+| C-03 | arithmetic | rate inverted: `from / to` → `to / from` | `app/engines/fx.py`, `mid_rate()` |
+| D-01 | result shape | `allowance_applied=within` → `not within` | `app/engines/fx.py`, `FxQuote` return |
+| D-02 | result shape | `mid_rate=rate` → `1 / rate` | `app/engines/fx.py`, `FxQuote` return |
+| D-03 | result shape | `allowance_used_before_eur` → `0.0` | `app/engines/fx.py`, `FxQuote` return |
 
 ---
 
