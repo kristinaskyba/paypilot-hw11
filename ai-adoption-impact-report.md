@@ -56,19 +56,22 @@
 | Field | Value |
 | --- | --- |
 | Folder | `tests/manual/` |
-| Number of test functions (5-8; a parametrized test counts as one) | <…> |
-| What from the theory you consciously used in the baseline (e.g. a boundary test) | <… / nothing> |
-| Timer: start / finish | <hh:mm> / <hh:mm> |
-| Actual time, min | <…> *(exact number, not "≈40")* |
-| All tests green on the original module (`pytest tests/manual`) | yes / no |
+| Number of test functions (5-8; a parametrized test counts as one) | 6 |
+| What from the theory you consciously used in the baseline (e.g. a boundary test) | boundary test (M-01: exactly at the tier1 EUR 500 allowance limit) |
+| Timer: start / finish | 11:00 / 11:45 |
+| Actual time, min | 45 |
+| All tests green on the original module (`pytest tests/manual`) | yes |
 | Where expected values come from | tariff table `app/engines/policy.py` |
-| Commit of the set | <SHA> |
+| Commit of the set | 087ce41 |
 
 | ID | Test name | Rule it checks | Class (tier value / boundary / arithmetic / result shape) |
 | --- | --- | --- | --- |
-| M-01 | <…> | <…> | <…> |
-| M-02 | <…> | <…> | <…> |
-| … |  |  |  |
+| M-01 | `test_quote_at_allowance_limit_has_no_spread` | exactly at the EUR 500 allowance: no spread | boundary |
+| M-02 | `test_quote_above_allowance_uses_tier_spread` | above the allowance: tier1 spread applies | tier value |
+| M-03 | `test_quote_with_partial_allowance_charges_only_excess_amount` | partial allowance: spread only on the excess | arithmetic |
+| M-04 | `test_quote_uses_spread_override_above_allowance` | override replaces the tier spread | arithmetic |
+| M-05 | `test_quote_rejects_unknown_tier` | unknown tier raises an error | none of the 4 |
+| M-06 | `test_quote_rejects_unknown_currency` | unknown currency raises an error | none of the 4 |
 
 ---
 
