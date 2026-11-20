@@ -430,25 +430,25 @@ minutes: 1 + 2
 
 | Row | Content |
 | --- | --- |
-| 1. What we measured on | one module `app/engines/fx.py`, one list of 12 mutants (commit <date>), both sets on a fresh clone <SHA of the homework repo>; assistant <model> saw <what exactly> |
-| 2. The number | mutation score: manual <…> % · generated <…> % · combined <…> %; breakdown by class in section 6; share of rejected generated tests <…> % |
+| 1. What we measured on | one module `app/engines/fx.py`, one list of 12 mutants (commit `cedf5c5`, 2026-11-20), both sets on a fresh clone <SHA of the homework repo>; assistant `claude-sonnet-5-5` saw only `fx.py` (not `policy.py`, the manual set, the mutant list or the review criteria) |
+| 2. The number | mutation score: manual 42 % · generated 75 % · combined 75 %; breakdown by class in section 6; share of rejected generated tests 65 % |
 
 ### Block 2. Where it does not work and what it costs
 
 | Row | Content |
 | --- | --- |
-| 3. Where it does not work | <mutant class no set killed / the assistant misses, as a class, not a list> |
-| 4. Cost | <…> human min (manual) vs <…> human min (generated, with review and rewrite), plus <…> machine min and $<…> |
+| 3. Where it does not work | Tier value: no set catches a wrong tariff (manual 0/3, generated 1/3). The generated tests replace the tariff table with a fake one, so they only test the calculation, never the real tariffs. |
+| 4. Cost | 45 human min (manual) vs 18 human min (generated, 8 review + 10 rewrite), plus 0.5 machine min and $0.10 |
 
 ### Block 3. Decision
 
 | Row | Content |
 | --- | --- |
-| 5. What we do about it | <assistant's role: what it writes, what a human adds> |
-| 6. Mandate | under Ship it: <…>; under Zero regulatory risk: <…> |
-| 7. When we review this | <conditions: assistant model change, module change, tariff table appearing in the assistant's context, …> |
+| 5. What we do about it | Let the assistant write the logic tests, where it did better than me. I write the tariff tests myself with real numbers from the tariff table, and in review I reject every generated test that uses a fake table. |
+| 6. Mandate | under Ship it: we use the reviewed generated set and a human adds tier-value tests before release; under Zero regulatory risk: no generated test is accepted without an expected value from the real tariff table, and release waits until all 3 tier-value mutants are killed |
+| 7. When we review this | (1) the assistant model changes; (2) `fx.py` or the tariff table changes; (3) the tariff table or the review criteria are given to the assistant as input (the "strong prompt"); (4) the generated set starts killing tier-value mutants |
 
-**Answer to the CTO in one sentence** *(to "Does anyone have a number?")*: <…>
+**Answer to the CTO in one sentence** *(to "Does anyone have a number?")*: Yes: on `fx.py` the assistant's tests kill 9 of 12 planted bugs vs 5 by hand, for 18 vs 45 human minutes and $0.10, but no set catches a wrong tariff, so a human still writes the tariff tests.
 
 ---
 
